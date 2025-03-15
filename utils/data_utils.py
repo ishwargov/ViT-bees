@@ -46,8 +46,8 @@ def get_loader(args):
                                     transform=transform_test) if args.local_rank in [-1, 0] else None
     
     elif args.dataset == "bees":
-        trainset = ImageFolder('/content/ViT-pytorch/hymenoptera_data',transform=transform_train)
-        testset =  ImageFolder('/content/ViT-pytorch/hymenoptera_data',transform=transform_test)
+        trainset = ImageFolder(f'{args.dataset_path}/train/',transform=transform_train)
+        testset =  ImageFolder(f'{args.dataset_path}/val/',transform=transform_test)
     
     if args.local_rank == 0:
         torch.distributed.barrier()

@@ -298,6 +298,8 @@ def main():
                         help="Loss scaling to improve fp16 numeric stability. Only used when fp16 set to True.\n"
                              "0 (default value): dynamic loss scaling.\n"
                              "Positive power of 2: static loss scaling value.\n")
+    parser.add_argument('--dataset_path', type=str, default='',
+                        help="The bees vs ants dataset path")
     args = parser.parse_args()
 
     # Setup CUDA, GPU & distributed training
