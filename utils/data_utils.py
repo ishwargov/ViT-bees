@@ -3,8 +3,9 @@ import logging
 import torch
 
 from torchvision import transforms, datasets
+from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, RandomSampler, DistributedSampler, SequentialSampler
-
+from PIL import Image
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ def get_loader(args):
                                    download=True,
                                    transform=transform_test) if args.local_rank in [-1, 0] else None
 
-    else:
+    elif args.dataset == "cifar100":
         trainset = datasets.CIFAR100(root="./data",
                                      train=True,
                                      download=True,
@@ -43,6 +44,11 @@ def get_loader(args):
                                     train=False,
                                     download=True,
                                     transform=transform_test) if args.local_rank in [-1, 0] else None
+    
+    elif args.dataset == "bees":
+        trainset = ImageFolder('/content/ViT-pytorch/hymenoptera_data',transform=transform_train)
+        testset =  ImageFolder('/content/ViT-pytorch/hymenoptera_data',transform=transform_test)
+    
     if args.local_rank == 0:
         torch.distributed.barrier()
 
